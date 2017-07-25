@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.IRSbtn = new System.Windows.Forms.Button();
             this.IRSlbl = new System.Windows.Forms.Label();
             this.cwdLbl = new System.Windows.Forms.Label();
@@ -157,6 +158,7 @@
             this.plan403Btn.Text = "Change File";
             this.plan403Btn.UseVisualStyleBackColor = true;
             this.plan403Btn.Visible = false;
+            this.plan403Btn.Click += new System.EventHandler(this.plan403Btn_Click);
             // 
             // aa403Lbl
             // 
@@ -180,6 +182,7 @@
             this.aa403Btn.Text = "Change File";
             this.aa403Btn.UseVisualStyleBackColor = true;
             this.aa403Btn.Visible = false;
+            this.aa403Btn.Click += new System.EventHandler(this.aa403Btn_Click);
             // 
             // aa457Lbl
             // 
@@ -203,6 +206,7 @@
             this.aa457Btn.Text = "Change File";
             this.aa457Btn.UseVisualStyleBackColor = true;
             this.aa457Btn.Visible = false;
+            this.aa457Btn.Click += new System.EventHandler(this.aa457Btn_Click);
             // 
             // plan457Lbl
             // 
@@ -226,6 +230,7 @@
             this.plan457Btn.Text = "Change File";
             this.plan457Btn.UseVisualStyleBackColor = true;
             this.plan457Btn.Visible = false;
+            this.plan457Btn.Click += new System.EventHandler(this.plan457Btn_Click);
             // 
             // paLbl
             // 
@@ -249,6 +254,7 @@
             this.paBtn.Text = "Change File";
             this.paBtn.UseVisualStyleBackColor = true;
             this.paBtn.Visible = false;
+            this.paBtn.Click += new System.EventHandler(this.paBtn_Click);
             // 
             // addALbl
             // 
@@ -272,6 +278,7 @@
             this.addABtn.Text = "Change File";
             this.addABtn.UseVisualStyleBackColor = true;
             this.addABtn.Visible = false;
+            this.addABtn.Click += new System.EventHandler(this.addABtn_Click);
             // 
             // multiLbl
             // 
@@ -295,6 +302,7 @@
             this.multiBtn.Text = "Change File";
             this.multiBtn.UseVisualStyleBackColor = true;
             this.multiBtn.Visible = false;
+            this.multiBtn.Click += new System.EventHandler(this.multiBtn_Click);
             // 
             // taLbl
             // 
@@ -318,6 +326,7 @@
             this.taBtn.Text = "Change File";
             this.taBtn.UseVisualStyleBackColor = true;
             this.taBtn.Visible = false;
+            this.taBtn.Click += new System.EventHandler(this.taBtn_Click);
             // 
             // AddCALbl
             // 
@@ -341,6 +350,7 @@
             this.addCABtn.Text = "Change File";
             this.addCABtn.UseVisualStyleBackColor = true;
             this.addCABtn.Visible = false;
+            this.addCABtn.Click += new System.EventHandler(this.addCABtn_Click);
             // 
             // addBLbl
             // 
@@ -364,6 +374,7 @@
             this.addBBtn.Text = "Change File";
             this.addBBtn.UseVisualStyleBackColor = true;
             this.addBBtn.Visible = false;
+            this.addBBtn.Click += new System.EventHandler(this.addBBtn_Click);
             // 
             // xeLbl
             // 
@@ -387,6 +398,7 @@
             this.xeBtn.Text = "Change File";
             this.xeBtn.UseVisualStyleBackColor = true;
             this.xeBtn.Visible = false;
+            this.xeBtn.Click += new System.EventHandler(this.xeBtn_Click);
             // 
             // addCLbl
             // 
@@ -410,6 +422,7 @@
             this.addCBtn.Text = "Change File";
             this.addCBtn.UseVisualStyleBackColor = true;
             this.addCBtn.Visible = false;
+            this.addCBtn.Click += new System.EventHandler(this.addCBtn_Click);
             // 
             // makeBtn
             // 
@@ -635,7 +648,9 @@
             this.Controls.Add(this.cwdLbl);
             this.Controls.Add(this.IRSlbl);
             this.Controls.Add(this.IRSbtn);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.Text = "PDF Document Find and Combine";
             this.ResumeLayout(false);
             this.PerformLayout();
 
