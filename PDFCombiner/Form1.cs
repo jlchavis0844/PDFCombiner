@@ -11,29 +11,18 @@ using System.IO;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Collections;
+using System.Net.Mail;
+using System.Net;
+using Outlook = Microsoft.Office.Interop.Outlook;
+using System.Security.Permissions;
+using Infobox = Microsoft.VisualBasic.Interaction;
 
 namespace PDFCombiner
 {
     public partial class Form1 : Form
     {
-        private static int counter = 0;
         private string saveLoc = "";
-        private static List<Tuple<string, string>> pdfs = null; 
-        private bool has457 = true;
-        private bool cwdLoaded = false;
-        private bool IRSLoaded = false;
-        private bool Plan403Loaded = false;
-        private bool AA403Loaded = false;
-        private bool Plan457Loaded = false;
-        private bool AA457Loaded = false;
-        private bool PALoaded = false;
-        private bool AddALoaded = false;
-        private bool MultiLoaded = false;
-        private bool AddBLoaded = false;
-        private bool AddCLoaded = false;
-        private bool AddCALoaded = false;
-        private bool TALoaded = false;
-        private bool X1000Loaded = false;
+        private static List<Tuple<string, string>> pdfs = null;
         private string cwd = "C:\\";
 
         public Form1()
@@ -41,17 +30,22 @@ namespace PDFCombiner
             InitializeComponent();
         }
 
+        static void OnProcessExit(object sender, EventArgs e)
+        {
+            Console.WriteLine("I'm out of here");
+            System.Environment.Exit(1);
+        }
 
         private void cwdBtn_Click(object sender, EventArgs e)
         {
             pdfs = new List<Tuple<string, string>>();
-                FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = "T:\\New Plan Document Roll Out\\Plan Document roll out\\School Districts";
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = @"T:\New Plan Document Roll Out\School Districts";
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 cwd = fbd.SelectedPath;
                 cwdLbl.Text = cwd;
-                IRSlbl.Text =FindPDFfiles("IRS", "");
+                IRSlbl.Text = FindPDFfiles("IRS", "");
                 plan403Lbl.Text = FindPDFfiles("403*plan", "");
                 aa403Lbl.Text = FindPDFfiles("403*AA", "");
 
@@ -64,7 +58,8 @@ namespace PDFCombiner
                     plan457Lbl.Visible = true;
                     aa457Btn.Visible = true;
                     aa457Lbl.Visible = true;
-                } else
+                }
+                else
                 {
                     plan457Lbl.Text = "No 457 Plan docs";
                     plan457Lbl.ForeColor = System.Drawing.Color.Red;
@@ -75,7 +70,7 @@ namespace PDFCombiner
                     aa457Lbl.Visible = true;
                 }
 
-                paLbl.Text =  FindPDFfiles("PA ","");
+                paLbl.Text = FindPDFfiles("PA ", "");
                 addALbl.Text = FindPDFfiles("ADDENDUM A", "");
                 multiLbl.Text = FindPDFfiles("Multi", "");
                 addBLbl.Text = FindPDFfiles("ADDENDUM B", "");
@@ -132,15 +127,16 @@ namespace PDFCombiner
 
         private void LoadFiles()
         {
-
             pdfs.Add(Tuple.Create("IRS Determination Letter", IRSlbl.Text));
             pdfs.Add(Tuple.Create("403b Plan Document", plan403Lbl.Text));
             pdfs.Add(Tuple.Create("403b Adoption Agreement", aa403Lbl.Text));
+
             if (cb457.Checked == true)
             {
                 pdfs.Add(Tuple.Create("457 Plan Document", plan457Lbl.Text));
                 pdfs.Add(Tuple.Create("457 Adoption Agreement", aa457Lbl.Text));
             }
+
             pdfs.Add(Tuple.Create("403_457 PA Agreement", paLbl.Text));
             pdfs.Add(Tuple.Create("Addendum A", addALbl.Text));
             pdfs.Add(Tuple.Create("Multipurpose Employer Agreement", multiLbl.Text));
@@ -155,7 +151,7 @@ namespace PDFCombiner
         {
             OpenFileDialog fd = new OpenFileDialog();
             DialogResult result = fd.ShowDialog();
-            if(result == DialogResult.OK)
+            if (result == DialogResult.OK)
             {
                 IRSlbl.Text = fd.FileName;
             }
@@ -168,7 +164,7 @@ namespace PDFCombiner
             string[] dirs = Directory.GetDirectories(cwd);
             foreach (string dir in dirs)
             {
-                string[] files = Directory.GetFiles(dir,"*" + name + "*.pdf");
+                string[] files = Directory.GetFiles(dir, "*" + name + "*.pdf");
 
                 if (files.Length == 0 && altName != "")//if no files are found using primary, search for alt if not blank
                 {
@@ -213,7 +209,7 @@ namespace PDFCombiner
                     stamper = new PdfStamper(reader, stream);
                     AcroFields acroFields = stamper.AcroFields;
 
-                    if(acroFields != null && acroFields.GenerateAppearances != true)
+                    if (acroFields != null && acroFields.GenerateAppearances != true)
                     {
                         acroFields.GenerateAppearances = true;
                     }
@@ -234,12 +230,12 @@ namespace PDFCombiner
                         Console.WriteLine(newName);
                     }
 
-                        for (int i = 0; i < reader.NumberOfPages; i++)
+                    for (int i = 0; i < reader.NumberOfPages; i++)
                     {
                         page = pdf.GetImportedPage(reader, i + 1);
                         pdf.AddPage(page);
                         var h = page.Height;
-                        if(i == 0)
+                        if (i == 0)
                         {
                             var mark = new Dictionary<string, object>();
                             mark.Add("Action", "GoTo");
@@ -262,7 +258,7 @@ namespace PDFCombiner
             PdfReader reader = new PdfReader(src);
             PdfDictionary root = reader.Catalog;
             PdfDictionary form = root.GetAsDict(PdfName.ACROFORM);
-            PdfArray fields = form.GetAsArray(PdfName.FIELDS);            
+            PdfArray fields = form.GetAsArray(PdfName.FIELDS);
             PdfDictionary page;
             PdfArray annots;
             for (int i = 1; i <= reader.NumberOfPages; i++)
@@ -283,25 +279,50 @@ namespace PDFCombiner
 
         private void makeBtn_Click(object sender, EventArgs e)
         {
-            makeBtn.Text = "Building PDF....";
+            lblStatus.Text = "Finding PDFs...";
             LoadFiles();
+            lblStatus.Text = "Picking Directory...";
             saveLoc = SaveFile();
             if (saveLoc != "" && saveLoc != null)
             {
+                lblStatus.Text = "Building PDF...";
                 Merge(pdfs, saveLoc);
+                lblStatus.Text = "Done building PDF...";
+            } else
+            {
+                lblStatus.Text = "No save location has been selected";
+                return;
             }
+
             HideButtons();
-            makeBtn.Hide();
-            openBtn.Text = "The file is done, click here to open";
-            openBtn.Show();
-        }
+            DialogResult result = MessageBox.Show(this, 
+                "Would you like to open and view the document?", "Open File?", MessageBoxButtons.YesNo);
+            if(result == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start(saveLoc);
+            }
+            
+            result = MessageBox.Show(this,
+                "Would you to email the document?", "EMail File?", MessageBoxButtons.YesNo);
 
-        private void openBtn_Click(object sender, EventArgs e)
-        {
-            //File.Open(saveLoc, FileMode.Open);
-            System.Diagnostics.Process.Start(saveLoc);
-        }
+            if(result == DialogResult.Yes)
+            {
+                lblStatus.Text = "Mailing PDF...";
+                SendFile();
+                lblStatus.Text = "PDF Mailed";
+            }
 
+            result = MessageBox.Show(this,
+                "Start a new file", "New File?", MessageBoxButtons.YesNo);
+
+            if(result == DialogResult.Yes)
+            {
+                this.Hide();
+                var form2 = new Form1();
+                form2.Closed += (s, args) => this.Close();
+                form2.Show();
+            }
+        }
 
         private string SaveFile()
         {
@@ -317,7 +338,7 @@ namespace PDFCombiner
                 return sfd.FileName;
             }
             else return "";
-             
+
         }
 
         private void plan403Btn_Click(object sender, EventArgs e)
@@ -439,5 +460,32 @@ namespace PDFCombiner
                 xeLbl.Text = fd.FileName;
             }
         }
+
+         private void SendFile()
+        {
+
+            string toList = "cgoldman@tdsgroup.org ; nbillings@tdsgroup.org";
+            string ccList = "ccolton@tdsgroup.org; jtimmerman@tdsgroup.org; rhofhine@tdsgroup.org";
+            string testList = "jchavis@tdsgroup.org ; jchavis@ralotter.com";
+
+            string fileName = Path.GetFileName(saveLoc);
+            Outlook.Application outlookApp = new Outlook.Application();
+            string school = Infobox.InputBox("What is the school name", "Enter School Name", "", 100, 100);
+            Outlook.MailItem mail = outlookApp.CreateItem(Outlook.OlItemType.olMailItem) as Outlook.MailItem;
+            mail.Subject = "Sending combined documents, " + fileName + " " + school;
+            Outlook.AddressEntry currentUser = outlookApp.Session.CurrentUser.AddressEntry;
+
+            if(currentUser.Type == "EX")
+            {
+                Outlook.ExchangeUser manager = currentUser.GetExchangeUser().GetExchangeUserManager();
+                mail.Body = "Please see the attached document for " + school;
+                mail.To = toList;
+                mail.BCC = ccList;
+                mail.Attachments.Add(saveLoc, Outlook.OlAttachmentType.olByValue, Type.Missing, Type.Missing);
+                mail.Send();
+
+            }
+        }
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace PDFCombiner
+﻿using System;
+
+namespace PDFCombiner
 {
     partial class Form1
     {
@@ -59,7 +61,6 @@
             this.addCLbl = new System.Windows.Forms.Label();
             this.addCBtn = new System.Windows.Forms.Button();
             this.makeBtn = new System.Windows.Forms.Button();
-            this.openBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -74,6 +75,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // IRSbtn
@@ -426,6 +428,7 @@
             // 
             // makeBtn
             // 
+            this.makeBtn.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.makeBtn.Location = new System.Drawing.Point(16, 460);
             this.makeBtn.Name = "makeBtn";
             this.makeBtn.Size = new System.Drawing.Size(804, 27);
@@ -434,17 +437,6 @@
             this.makeBtn.UseVisualStyleBackColor = true;
             this.makeBtn.Visible = false;
             this.makeBtn.Click += new System.EventHandler(this.makeBtn_Click);
-            // 
-            // openBtn
-            // 
-            this.openBtn.Location = new System.Drawing.Point(16, 493);
-            this.openBtn.Name = "openBtn";
-            this.openBtn.Size = new System.Drawing.Size(804, 27);
-            this.openBtn.TabIndex = 31;
-            this.openBtn.Text = "You shouldn\'t be seeing this";
-            this.openBtn.UseVisualStyleBackColor = true;
-            this.openBtn.Visible = false;
-            this.openBtn.Click += new System.EventHandler(this.openBtn_Click);
             // 
             // label1
             // 
@@ -600,9 +592,21 @@
             this.label14.TabIndex = 45;
             this.label14.Text = "XE 100100:";
             // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(21, 490);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(108, 19);
+            this.lblStatus.TabIndex = 46;
+            this.lblStatus.Text = "Status Text";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(921, 531);
+            this.ClientSize = new System.Drawing.Size(921, 559);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
@@ -617,7 +621,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.openBtn);
             this.Controls.Add(this.makeBtn);
             this.Controls.Add(this.addCLbl);
             this.Controls.Add(this.addCBtn);
@@ -688,7 +691,6 @@
         private System.Windows.Forms.Label addCLbl;
         private System.Windows.Forms.Button addCBtn;
         private System.Windows.Forms.Button makeBtn;
-        private System.Windows.Forms.Button openBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -703,6 +705,9 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblStatus;
+
+
     }
 }
 

@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PDFCombiner")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Combines various PDF documents into a single document")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("TDS Group")]
 [assembly: AssemblyProduct("PDFCombiner")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Mehhh, let's call it open source")]
+[assembly: AssemblyTrademark("None")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
