@@ -428,11 +428,15 @@ namespace PDFCombiner
             // 
             // makeBtn
             // 
-            this.makeBtn.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.makeBtn.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.makeBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.makeBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.makeBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.makeBtn.Location = new System.Drawing.Point(16, 460);
             this.makeBtn.Name = "makeBtn";
             this.makeBtn.Size = new System.Drawing.Size(804, 27);
             this.makeBtn.TabIndex = 30;
+            this.makeBtn.TabStop = false;
             this.makeBtn.Text = "You shouldn\'t be seeing this";
             this.makeBtn.UseVisualStyleBackColor = true;
             this.makeBtn.Visible = false;
@@ -690,7 +694,6 @@ namespace PDFCombiner
         private System.Windows.Forms.Button xeBtn;
         private System.Windows.Forms.Label addCLbl;
         private System.Windows.Forms.Button addCBtn;
-        private System.Windows.Forms.Button makeBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -706,8 +709,7 @@ namespace PDFCombiner
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lblStatus;
-
-
+        private System.Windows.Forms.Button makeBtn;
     }
 }
 
