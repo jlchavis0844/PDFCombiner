@@ -236,6 +236,17 @@ namespace PDFCombiner
 
                 //merge the files
                 int pageCntr = 1;
+                int pageTotals = 0;
+
+                pbFiles.Visible = true;
+                pbFiles.Minimum = 0;
+                pbFiles.Maximum = InFiles.Count;
+                pbFiles.Value = 1;
+                pbFiles.Step = 1;
+                pbPages.Visible = true;
+                pbPages.Minimum = 0;
+                pbPages.Step = 1;
+
                 InFiles.ForEach(file =>
                 {
                     string newName = "";
@@ -266,7 +277,8 @@ namespace PDFCombiner
                         acroFields.RenameField(oldName, newName);
                         Console.WriteLine(newName);
                     }
-
+                    pbPages.Maximum = reader.NumberOfPages;
+                    pbPages.Value = 1;
                     //insert page by page
                     for (int i = 0; i < reader.NumberOfPages; i++)
                     {
@@ -284,8 +296,11 @@ namespace PDFCombiner
                             bookmarks.Add(mark);
                         }
                         pageCntr++;
+                        pbPages.PerformStep();
+                        pbPages.Refresh();
                     }
-
+                    pbFiles.PerformStep();
+                    pbFiles.Refresh();
                     pdf.FreeReader(reader);
                     reader.Close();
                 });
@@ -308,7 +323,7 @@ namespace PDFCombiner
             if (saveLoc != "" && saveLoc != null)
             {
                 lblStatus.Text = "Building PDF...";
-                System.Threading.Thread.Sleep(300);//wait for label to update
+                lblStatus.Refresh();
                 Merge(pdfs, saveLoc);
                 lblStatus.Text = "Done building PDF...";
             } else
@@ -584,6 +599,5 @@ namespace PDFCombiner
                 }
             }
         }
-
     }
 }

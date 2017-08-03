@@ -76,6 +76,8 @@ namespace PDFCombiner
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.pbFiles = new System.Windows.Forms.ProgressBar();
+            this.pbPages = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // IRSbtn
@@ -607,9 +609,29 @@ namespace PDFCombiner
             this.lblStatus.Text = "Status Text";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // pbFiles
+            // 
+            this.pbFiles.Location = new System.Drawing.Point(16, 513);
+            this.pbFiles.Maximum = 13;
+            this.pbFiles.Name = "pbFiles";
+            this.pbFiles.Size = new System.Drawing.Size(804, 14);
+            this.pbFiles.Step = 1;
+            this.pbFiles.TabIndex = 47;
+            this.pbFiles.Visible = false;
+            // 
+            // pbPages
+            // 
+            this.pbPages.Location = new System.Drawing.Point(16, 533);
+            this.pbPages.Name = "pbPages";
+            this.pbPages.Size = new System.Drawing.Size(804, 14);
+            this.pbPages.TabIndex = 48;
+            this.pbPages.Visible = false;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(921, 559);
+            this.Controls.Add(this.pbPages);
+            this.Controls.Add(this.pbFiles);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -710,6 +732,8 @@ namespace PDFCombiner
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.Button makeBtn;
+        private System.Windows.Forms.ProgressBar pbFiles;
+        private System.Windows.Forms.ProgressBar pbPages;
     }
 }
 
