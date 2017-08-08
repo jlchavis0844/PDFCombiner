@@ -297,6 +297,8 @@ namespace PDFCombiner
                         }
                         pageCntr++;
                         pbPages.PerformStep();
+                        ///TODO: Multithread events
+                        Application.DoEvents();//wait for the GUI
                         pbPages.Refresh();
                     }
                     pbFiles.PerformStep();
